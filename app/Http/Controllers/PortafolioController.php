@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use DB;
 
+use App\Http\Requests\CreatePortafoliorequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
@@ -51,7 +52,7 @@ class PortafolioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePortafoliorequest $request)
     {
         // return $request->all();
         // $title =  $request->get('title');
@@ -64,7 +65,12 @@ class PortafolioController extends Controller
         //     'description'=> $description
         // ]);
 
-        Project::create($request->all());
+        // Project::create($request->all());
+
+        // $fields = $request->validate([
+            
+        // ]);
+        Project::create($request->validate());
 
         return redirect()->route('portafolio.index');
     }
