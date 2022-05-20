@@ -4,13 +4,22 @@ namespace App\Http\Controllers;
 
 // use DB;
 
-use App\Http\Requests\CreatePortafoliorequest;
+use App\Http\Requests\SavePortafoliorequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
 
 class PortafolioController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->middleware('auth')->only('create','edit');    
+        $this->middleware('auth')->except('index','show');    
+    }
+
+    
+
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +52,7 @@ class PortafolioController extends Controller
     public function create()
     {
         return view('projects.create',[
+            'project' => new Project
         ]);
     }
 
@@ -52,8 +62,10 @@ class PortafolioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePortafoliorequest $request)
+    public function store(SavePortafoliorequest $request)
     {
+        
+
         // return $request->all();
         // $title =  $request->get('title');
         // $url = $request->get('url');
@@ -70,9 +82,9 @@ class PortafolioController extends Controller
         // $fields = $request->validate([
             
         // ]);
-        Project::create($request->validate());
+        Project::create($request->all());
 
-        return redirect()->route('portafolio.index');
+        return redirect()->route('portafolio.index')->with('status','El proyecto fue creado correctamente');
     }
 
     /**
@@ -95,9 +107,13 @@ class PortafolioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Project $project)
     {
-        //
+        // return $project;
+         
+        return view('projects.edit',[
+            'project' => $project
+        ]);
     }
 
     /**
@@ -107,9 +123,11 @@ class PortafolioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Project $project,SavePortafoliorequest $request)
     {
-        //
+        $project->update($request->validated());
+        return redirect()->route('portafolio.show',$project)->with('status','El proyecto fue editado correctamente');;
+        
     }
 
     /**
@@ -118,8 +136,9 @@ class PortafolioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->route('portafolio.index')->with('status','El proyecto fue eliminado correctamente');;
     }
 }

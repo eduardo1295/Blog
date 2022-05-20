@@ -36,13 +36,27 @@ Route::view('/contact','contact')->name('contact');
 
 Route::post('contact',[MessagesController::class,'store']);
 
-Route::get('/portafolio',[PortafolioController::class,'index'])->name('portafolio.index');
-Route::get('/portafolio/crear',[PortafolioController::class,'create'])->name('portafolio.create');
-Route::post('/portafolio',[PortafolioController::class,'store'])->name('portafolio.store');
-Route::get('/portafolio/{project}',[PortafolioController::class,'show'])->name('portafolio.show');
+Route::resource('portafolio',PortafolioController::class)
+->parameters(['portafolio' => 'project']);
+// Route::get('/portafolio',[PortafolioController::class,'index'])->name('portafolio.index');
+// Route::get('/portafolio/crear',[PortafolioController::class,'create'])->name('portafolio.create');
+// Route::get('/portafolio/{project}/editar',[PortafolioController::class,'edit'])->name('portafolio.edit');
+// Route::patch('/portafolio/{project}',[PortafolioController::class,'update'])->name('portafolio.update');
+// Route::delete('/portafolio/{project}',[PortafolioController::class,'destroy'])->name('portafolio.destroy');
+// Route::post('/portafolio',[PortafolioController::class,'store'])->name('portafolio.store');
+// Route::get('/portafolio/{project}',[PortafolioController::class,'show'])->name('portafolio.show');
+
 
 
 // Route::resource('proyects',PortafolioController::class);
 
 
 
+
+Auth::routes(['register' => false]);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

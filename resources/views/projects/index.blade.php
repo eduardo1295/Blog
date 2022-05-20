@@ -7,7 +7,11 @@
 @section('content')
     <h1>Protafolio</h1>
     
-    <a href="{{route('portafolio.create')}}">Crear Proyecto</a>
+    @auth
+        s<a href="{{route('portafolio.create')}}">Crear Proyecto</a>
+    @endauth
+    
+    @include('parcials.session-status')
     <ul>
         {{-- @if (count($portafolio) >  0)
             @foreach ($portafolio as $portafolioItem)

@@ -22,7 +22,7 @@ class MessagesController extends Controller
 
         Mail::to('lalalolo1221@gmail.com')->queue(new MessageReceived($message));
 
-        return 'Mensaje Enviado';
+        return back()->with('status','Recibimos tu mensajes,te responderemos en mesnode 24 horas');
 
     }
 }
